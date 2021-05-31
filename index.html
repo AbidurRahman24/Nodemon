@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data add</title>
+  </head>
+  <body>
+    <h1>File upload test</h1>
+    <form action="/addProduct" method="post">
+      <input type="text" name="name" placeholder="product name" />
+      <input type="text" name="price" placeholder="product price" />
+      <input type="text" name="quentity" placeholder="quentity" />
+      <button type="submit">Add Product</button>
+    </form>
+
+    <div id="product"></div>
+
+    <script>
+      function loadAllProduct() {
+        fetch("/products")
+          .then((res) => res.json())
+          .then((data) => {
+            const container = document.getElementById("product");
+
+            data.forEach((pd) => {
+              const p = document.createElement("p");
+              p.innerHTML = `${pd.name} price: ${pd.price} quentity: ${pd.quentity}
+          <button onclick="deleteProduct('${pd._id}')">Delete</button> `;
+              product.appendChild(p);
+            });
+          });
+      }
+      loadAllProduct();
+
+      function deleteProduct(id) {
+        fetch(`/delete/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((result) => {
+            console.log("delete successfully");
+          });
+      }
+    </script>
+  </body>
+</html>
